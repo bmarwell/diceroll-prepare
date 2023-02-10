@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>de.bmarwell.diceroll.parser</groupId>
+    <artifactId>dicerollparser-root</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>dicerollparser-rest</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>dicerollparser :: rest</name>
+
+  <properties>
+    <liberty.var.default.http.port>9080</liberty.var.default.http.port>
+    <liberty.var.default.https.port>9443</liberty.var.default.https.port>
+    <liberty.var.app.filename>dicerollparser-rest-${project.version}</liberty.var.app.filename>
+    <liberty.var.app.context.root>/api</liberty.var.app.context.root>
+  </properties>
+
+  <dependencies>
+    <!-- JavaEE and MicroProfile -->
+    <dependency>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.enterprise</groupId>
+      <artifactId>jakarta.enterprise.cdi-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.json.bind</groupId>
+      <artifactId>jakarta.json.bind-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- 3rd party -->
+    <dependency>
+      <groupId>dev.diceroll</groupId>
+      <artifactId>dice-parser</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>io.openliberty.tools</groupId>
+        <artifactId>liberty-maven-plugin</artifactId>
+        <version>3.7.1</version>
+        <configuration>
+          <runtimeArtifact>
+            <groupId>io.openliberty</groupId>
+            <artifactId>openliberty-kernel</artifactId>
+            <version>22.0.0.13</version>
+            <type>zip</type>
+          </runtimeArtifact>
+          <serverName>dicerollparser</serverName>
+          <features>
+            <acceptLicense>true</acceptLicense>
+          </features>
+        </configuration>
+        <executions>
+          <execution>
+            <id>test-start</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>create</goal>
+              <goal>deploy</goal>
+              <goal>install-feature</goal>
+              <goal>start</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>test-stop</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <configuration>
+          <systemPropertyVariables>
+            <http.port>${liberty.var.default.http.port}</http.port>
+            <https.port>${liberty.var.default.https.port}</https.port>
+            <war.name>${liberty.var.app.context.root}</war.name>
+            <app.context.root>${liberty.var.app.context.root}</app.context.root>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
