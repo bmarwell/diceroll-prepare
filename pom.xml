@@ -38,7 +38,7 @@
 
     <!-- plugin versions -->
     <kubernetes-maven-plugin.version>1.10.1</kubernetes-maven-plugin.version>
-    <plugin.spotless.version>2.34.0</plugin.spotless.version>
+    <plugin.spotless.version>2.35.0</plugin.spotless.version>
   </properties>
 
   <dependencyManagement>
