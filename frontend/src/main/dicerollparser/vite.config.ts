@@ -13,7 +13,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': 'http://localhost:9080',
-    }
-  }
+      "/api": "http://localhost:9080",
+    },
+  },
 });
