@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import RollOptions from "./components/RollOptions.vue";
+import DiceSelector from "./components/DiceSelector.vue";
 import { watch } from "vue";
 
 const advanced = ref(false);
@@ -27,6 +28,7 @@ watch(advanced, (newAdv) => console.log(newAdv));
             ref="rollOptions"
             v-model:advanced="advanced"
           ></RollOptions>
+          <DiceSelector ref="diceSelector"></DiceSelector>
         </v-col>
         <v-col sm="6">
           <v-card title="Result" class="ma-2 pa-2"> Test </v-card>

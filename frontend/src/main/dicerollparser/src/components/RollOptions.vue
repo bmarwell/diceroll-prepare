@@ -17,8 +17,8 @@ const emits = defineEmits<{
 <template>
   <v-card title="Options" class="pa-2 ma-2">
     <v-switch
-      label="Toggle detail mode"
       v-model="advancedState"
+      label="Toggle detail mode"
       @update:model-value="$emit('update:advanced', advancedState)"
     ></v-switch>
   </v-card>
