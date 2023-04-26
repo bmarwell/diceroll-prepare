@@ -17,6 +17,27 @@ const addDie = () => {
   emit("update:modelValue", modelValue.value);
 };
 
+const removeDiceGroup = (event: any, index: number) => {
+  // let element = modelValue.value[index];
+  let before = null;
+  let after = null;
+  if (index > 0) {
+    before = modelValue.value[index - 1];
+  }
+  if (modelValue.value.length - 1 != index) {
+    after = modelValue.value[index + 1];
+  }
+
+  modelValue.value.splice(index, 1);
+  if (before !== null && after !== null) {
+    before.chain = { operation: "+", diceGroup: after };
+  } else if (before !== null && after === null) {
+    before.chain = undefined;
+  }
+
+  emit("update:modelValue", modelValue.value);
+};
+
 emit("update:modelValue", modelValue.value);
 </script>
 
@@ -53,7 +74,12 @@ emit("update:modelValue", modelValue.value);
         </v-row>
       </v-container>
       <template #actions>
-        <v-btn class="ma-2 pa-2" prepend-icon="mdi-delete">Remove</v-btn>
+        <v-btn
+          class="ma-2 pa-2"
+          prepend-icon="mdi-delete"
+          @click="removeDiceGroup($event, index)"
+          >Remove</v-btn
+        >
       </template>
     </v-card>
     <v-btn prepend-icon="mdi-plus" @click="addDie">Add</v-btn>
