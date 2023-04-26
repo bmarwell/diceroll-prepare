@@ -10,9 +10,13 @@ const emit = defineEmits<{
 }>();
 
 const addDie = () => {
-  const last = modelValue.value[modelValue.value.length - 1];
   const newDie = new DefaultDiceGroup(1, 6) as DiceGroup;
-  last.chain = { operation: "+", diceGroup: newDie };
+
+  const last = modelValue.value[modelValue.value.length - 1];
+  if (last) {
+    last.chain = { operation: "+", diceGroup: newDie };
+  }
+
   modelValue.value.push(newDie);
   emit("update:modelValue", modelValue.value);
 };

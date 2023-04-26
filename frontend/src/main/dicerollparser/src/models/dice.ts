@@ -1,5 +1,5 @@
 export interface DiceGroup {
-  count?: number;
+  count: number;
   faces: number;
   options: DiceGroupOptions;
   /** Multiply instead of add the dice results? */

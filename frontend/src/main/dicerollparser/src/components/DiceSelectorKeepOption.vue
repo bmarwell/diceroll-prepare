@@ -1,14 +1,14 @@
 <template>
   <div>
     <v-checkbox v-model="internalModel.enabled" label="keep" />
-    <v-row v-show="modelValue.enabled">
+    <v-row v-show="internalModel.enabled">
       <v-col sm="6">
         <v-switch
           v-model:model-value="keep"
           :label="keepTypeDescription(internalModel)"
           true-value="HIGH"
           false-value="LOW"
-          @update:model-value="onUpdateKeepType($event, internalModel)"
+          @update:model-value="onUpdateKeepType($event)"
         />
       </v-col>
       <v-col sm="6">
@@ -19,11 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  DiceKeepType,
-  type DiceGroup,
-  type DiceGroupKeepOptions,
-} from "@/models/dice";
+import { DiceKeepType, type DiceGroupKeepOptions } from "@/models/dice";
 import { ref } from "vue";
 
 const props = defineProps<{
@@ -32,20 +28,16 @@ const props = defineProps<{
 
 const internalModel = ref(props.modelValue);
 
-const emit = defineEmits<{
-  (event: "update", value: DiceGroupKeepOptions): void;
-}>();
-
 const keep = ref<string>("HIGH");
 
-const onUpdateKeepType = (keepState: any, value: DiceGroupKeepOptions) => {
+const onUpdateKeepType = (keepState: any) => {
   switch (keepState) {
     case "HIGH": {
-      value.type = DiceKeepType.HIGHEST;
+      internalModel.value.type = DiceKeepType.HIGHEST;
       break;
     }
     case "LOW": {
-      value.type = DiceKeepType.LOWEST;
+      internalModel.value.type = DiceKeepType.LOWEST;
       break;
     }
   }

@@ -13,6 +13,10 @@ const rollResult = ref("");
 const rollDetails = ref("");
 
 const onRollDice = () => {
+  if (diceGroups.value.length == 0) {
+    return;
+  }
+
   roll(diceGroups.value[0], advanced.value).then((result) => {
     if (advanced.value) {
       rollResult.value = result.split("\n")[0].split(" = ")[1];
