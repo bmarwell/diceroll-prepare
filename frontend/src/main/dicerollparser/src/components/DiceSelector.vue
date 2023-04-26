@@ -39,6 +39,13 @@ const removeDiceGroup = (event: any, index: number) => {
 };
 
 emit("update:modelValue", modelValue.value);
+
+const reset = () => {
+  modelValue.value.splice(0);
+  modelValue.value.push(new DefaultDiceGroup(1, 6));
+};
+
+defineExpose({ reset });
 </script>
 
 <template>

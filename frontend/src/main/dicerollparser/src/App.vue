@@ -8,6 +8,7 @@ import type { DiceGroup } from "./models/dice";
 const advanced = ref(false);
 const diceGroups: Ref<DiceGroup[]> = ref([]);
 const rollOptions = ref();
+const diceSelector = ref();
 const rollResult = ref("");
 const rollDetails = ref("");
 
@@ -20,6 +21,17 @@ const onRollDice = () => {
       rollResult.value = result;
     }
   });
+};
+
+const copyToClipBoard = (textToCopy: string) => {
+  navigator.clipboard.writeText(textToCopy);
+};
+
+const clearForms = () => {
+  advanced.value = false;
+  diceSelector.value.reset();
+  rollResult.value = "";
+  rollDetails.value = "";
 };
 </script>
 
@@ -41,7 +53,9 @@ const onRollDice = () => {
           <v-card title="Action" class="ma-2 pa-2">
             <template #actions>
               <v-btn prepend-icon="mdi-dice-5" @click="onRollDice">Roll!</v-btn>
-              <v-btn prepend-icon="mdi-close-circle-outline">Clear</v-btn>
+              <v-btn prepend-icon="mdi-close-circle-outline" @click="clearForms"
+                >Clear</v-btn
+              >
             </template>
           </v-card>
           <RollOptions
@@ -52,7 +66,15 @@ const onRollDice = () => {
         </v-col>
         <v-col sm="6">
           <v-card title="Result" class="ma-2 pa-2">
-            <v-text-field v-model="rollResult" readonly class="monospaced" />
+            <v-text-field v-model="rollResult" readonly class="monospaced">
+              <template #append-inner>
+                <v-icon
+                  v-show="rollResult.length > 0"
+                  icon="mdi-content-copy"
+                  @click="copyToClipBoard(rollResult)"
+                />
+              </template>
+            </v-text-field>
           </v-card>
           <v-card v-if="advanced" title="Roll details" class="ma-2 pa-2">
             <v-textarea
@@ -61,7 +83,15 @@ const onRollDice = () => {
               auto-grow
               label="Roll details"
               class="monospaced"
-            />
+            >
+              <template #append-inner>
+                <v-icon
+                  v-show="rollDetails.length > 0"
+                  icon="mdi-content-copy"
+                  @click="copyToClipBoard(rollDetails)"
+                />
+              </template>
+            </v-textarea>
           </v-card>
         </v-col>
       </v-row>
