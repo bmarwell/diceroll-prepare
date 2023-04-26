@@ -1,12 +1,26 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, type Ref } from "vue";
 import RollOptions from "./components/RollOptions.vue";
 import DiceSelector from "./components/DiceSelector.vue";
-import { watch } from "vue";
+import { roll } from "./api/diceApi";
+import type { DiceGroup } from "./models/dice";
 
 const advanced = ref(false);
+const diceGroups: Ref<DiceGroup[]> = ref([]);
 const rollOptions = ref();
-watch(advanced, (newAdv) => console.log(newAdv));
+const rollResult = ref("");
+const rollDetails = ref("");
+
+const onRollDice = () => {
+  roll(diceGroups.value[0], advanced.value).then((result) => {
+    if (advanced.value) {
+      rollResult.value = result.split("\n")[0].split(" = ")[1];
+      rollDetails.value = result;
+    } else {
+      rollResult.value = result;
+    }
+  });
+};
 </script>
 
 <template>
@@ -21,19 +35,33 @@ watch(advanced, (newAdv) => console.log(newAdv));
   </header>
 
   <main>
-    <v-container class="bg-surface-variant .w-auto">
+    <v-container class=".w-auto">
       <v-row no-gutters class=".w-auto">
         <v-col sm="6">
+          <v-card title="Action" class="ma-2 pa-2">
+            <template #actions>
+              <v-btn prepend-icon="mdi-dice-5" @click="onRollDice">Roll!</v-btn>
+              <v-btn prepend-icon="mdi-close-circle-outline">Clear</v-btn>
+            </template>
+          </v-card>
           <RollOptions
             ref="rollOptions"
             v-model:advanced="advanced"
           ></RollOptions>
-          <DiceSelector ref="diceSelector"></DiceSelector>
+          <DiceSelector ref="diceSelector" v-model="diceGroups"></DiceSelector>
         </v-col>
         <v-col sm="6">
-          <v-card title="Result" class="ma-2 pa-2"> Test </v-card>
+          <v-card title="Result" class="ma-2 pa-2">
+            <v-text-field v-model="rollResult" readonly class="monospaced" />
+          </v-card>
           <v-card v-if="advanced" title="Roll details" class="ma-2 pa-2">
-            Details go here
+            <v-textarea
+              v-model="rollDetails"
+              readonly
+              auto-grow
+              label="Roll details"
+              class="monospaced"
+            />
           </v-card>
         </v-col>
       </v-row>
@@ -46,8 +74,9 @@ header {
   line-height: 1.5;
 }
 
-.full {
-  width: 100%;
+.monospaced {
+  font-family: "Fira Code", monospace;
+  font-size: 0.6em;
 }
 
 .logo {
