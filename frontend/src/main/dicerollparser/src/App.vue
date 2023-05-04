@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { ref, type Ref } from "vue";
+import { onMounted, ref, type Ref, watch } from "vue";
 import RollOptions from "./components/RollOptions.vue";
 import DiceSelector from "./components/DiceSelector.vue";
-import { roll } from "./api/diceApi";
+import { roll, serializeDice } from "./api/diceApi";
 import type { DiceGroup } from "./models/dice";
 
 const advanced = ref(false);
 const diceGroups: Ref<DiceGroup[]> = ref([]);
 const rollOptions = ref();
 const diceSelector = ref();
+const rollInput = ref("");
 const rollResult = ref("");
 const rollDetails = ref("");
 
@@ -26,6 +27,14 @@ const onRollDice = () => {
     }
   });
 };
+
+function updateInput(newDiceGroup: DiceGroup[]) {
+  if (!newDiceGroup || newDiceGroup.length <= 0) {
+    rollInput.value = "";
+  }
+
+  rollInput.value = serializeDice(newDiceGroup[0]);
+}
 
 const copyToClipBoard = (textToCopy: string) => {
   navigator.clipboard.writeText(textToCopy);
@@ -71,6 +80,10 @@ const getIcon = (): string => {
   const idx = Math.floor(Math.random() * dice.length);
   return dice[idx];
 };
+
+onMounted(() => {
+  updateInput(diceGroups.value);
+});
 </script>
 
 <template>
@@ -96,9 +109,24 @@ const getIcon = (): string => {
             ref="rollOptions"
             v-model:advanced="advanced"
           ></RollOptions>
-          <DiceSelector ref="diceSelector" v-model="diceGroups"></DiceSelector>
+          <DiceSelector
+            ref="diceSelector"
+            v-model="diceGroups"
+            @change="updateInput(diceGroups)"
+          ></DiceSelector>
         </v-col>
         <v-col md="6" cols="12">
+          <v-card title="Input" class="ma-2 pa-2">
+            <v-text-field v-model="rollInput" readonly class="monospaced">
+              <template #append-inner>
+                <v-icon
+                  v-show="rollResult.length > 0"
+                  icon="mdi-content-copy"
+                  @click="copyToClipBoard(rollResult)"
+                />
+              </template>
+            </v-text-field>
+          </v-card>
           <v-card title="Result" class="ma-2 pa-2">
             <v-text-field v-model="rollResult" readonly class="monospaced">
               <template #append-inner>
