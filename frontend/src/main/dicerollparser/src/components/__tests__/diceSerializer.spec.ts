@@ -1,5 +1,9 @@
-import { describe, it, expect } from "vitest";
-import { type DiceGroup, DefaultDiceGroup } from "../../models/dice";
+import { describe, expect, it } from "vitest";
+import {
+  DefaultDiceGroup,
+  type DiceGroup,
+  DiceOrderType,
+} from "../../models/dice";
 import { serializeDice } from "../../api/diceApi";
 
 describe("diceSerializer", () => {
@@ -41,6 +45,8 @@ describe("diceSerializer", () => {
   it("orders and multiplies dice", () => {
     // given
     const dice: DiceGroup = new DefaultDiceGroup(2, 6);
+    dice.multiply = true;
+    dice.options.order = DiceOrderType.ASC;
 
     // when
     const out = serializeDice(dice);
