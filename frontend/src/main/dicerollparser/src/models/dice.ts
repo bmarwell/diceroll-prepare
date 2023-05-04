@@ -14,7 +14,12 @@ export interface DiceGroupOperation {
 
 export interface DiceGroupOptions {
   keep: DiceGroupKeepOptions;
-  order?: DiceOrderType;
+  order: DiceOrder;
+}
+
+export interface DiceOrder {
+  enabled: boolean;
+  type: DiceOrderType;
 }
 
 export interface DiceGroupKeepOptions {
@@ -46,6 +51,10 @@ export class DefaultDiceGroup implements DiceGroup {
         enabled: false,
         type: DiceKeepType.HIGHEST,
         count: 1,
+      },
+      order: {
+        enabled: false,
+        type: DiceOrderType.ASC,
       },
     };
     this.multiply = false;

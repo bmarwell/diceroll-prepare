@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, type Ref, watch } from "vue";
+import { onMounted, ref, type Ref } from "vue";
 import RollOptions from "./components/RollOptions.vue";
 import DiceSelector from "./components/DiceSelector.vue";
 import { roll, serializeDice } from "./api/diceApi";
