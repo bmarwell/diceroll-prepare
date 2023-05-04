@@ -61,6 +61,6 @@ function serialize(die: DiceGroup): string {
   return out;
 }
 
-export function serializeDice(dice: DiceGroup): String {
+export function serializeDice(dice: DiceGroup): string {
   return serialize(dice);
 }
