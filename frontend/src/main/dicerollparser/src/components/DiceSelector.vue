@@ -2,6 +2,7 @@
 import { ref, type Ref } from "vue";
 import { DefaultDiceGroup, type DiceGroup } from "../models/dice";
 import DiceSelectorKeepOption from "./DiceSelectorKeepOption.vue";
+import DiceOrderOption from "@/components/DiceOrderOption.vue";
 
 const modelValue: Ref<DiceGroup[]> = ref([new DefaultDiceGroup(1, 6)]);
 
@@ -83,6 +84,7 @@ defineExpose({ reset });
             <DiceSelectorKeepOption v-model="value.options.keep" />
           </v-col>
         </v-row>
+        <DiceOrderOption v-model="value.options.order" />
       </v-container>
       <template #actions>
         <v-btn

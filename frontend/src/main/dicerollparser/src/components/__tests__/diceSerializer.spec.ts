@@ -46,7 +46,8 @@ describe("diceSerializer", () => {
     // given
     const dice: DiceGroup = new DefaultDiceGroup(2, 6);
     dice.multiply = true;
-    dice.options.order = DiceOrderType.ASC;
+    dice.options.order.enabled = true;
+    dice.options.order.type = DiceOrderType.ASC;
 
     // when
     const out = serializeDice(dice);

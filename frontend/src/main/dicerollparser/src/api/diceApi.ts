@@ -48,8 +48,8 @@ function serialize(die: DiceGroup): string {
     if (die.options.keep && die.options.keep.enabled) {
       out += die.options.keep.type + die.options.keep.count;
     }
-    if (die.options.order) {
-      out += die.options.order.toLowerCase();
+    if (die.options.order && die.options.order.enabled) {
+      out += die.options.order.type.toLowerCase();
     }
   }
 
