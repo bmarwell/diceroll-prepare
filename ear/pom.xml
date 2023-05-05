@@ -16,6 +16,12 @@
 
   <name>dicerollparser :: enterprise archive</name>
 
+  <properties>
+    <app.filename>dicerollparser-${project.version}.ear</app.filename>
+    <app.context.root>/</app.context.root>
+    <docker.context.directory>${basedir}/target/dockerfiles</docker.context.directory>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>de.bmarwell.diceroll.parser</groupId>
@@ -32,6 +38,7 @@
   </dependencies>
 
   <build>
+    <finalName>dicerollparser-${project.version}</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -55,5 +62,68 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>dockerize</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-war</id>
+                <phase>process-sources</phase>
+                <goals>
+                  <goal>copy-dependencies</goal>
+                </goals>
+                <configuration>
+                  <includeTypes>war</includeTypes>
+                  <outputDirectory>${docker.context.directory}</outputDirectory>
+                </configuration>
+
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>io.openliberty.tools</groupId>
+            <artifactId>liberty-maven-plugin</artifactId>
+          </plugin>
+
+          <plugin>
+            <groupId>org.eclipse.jkube</groupId>
+            <artifactId>kubernetes-maven-plugin</artifactId>
+            <version>1.10.1</version>
+            <configuration>
+              <images>
+                <image>
+                  <name>bmarwell/dicerollparser</name>
+                  <build>
+                    <dockerFile>Dockerfile</dockerFile>
+                    <tags>
+                      <tag>latest</tag>
+                      <tag>${project.version}</tag>
+                    </tags>
+                  </build>
+                </image>
+              </images>
+              <verbose>true</verbose>
+            </configuration>
+
+            <executions>
+              <execution>
+                <id>default-build</id>
+                <goals>
+                  <goal>build</goal>
+                </goals>
+                <phase>package</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>
