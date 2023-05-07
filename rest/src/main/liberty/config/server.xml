@@ -11,7 +11,7 @@
 
   <httpEndpoint
     id="defaultHttpEndpoint"
-    host="127.0.0.1"
+    host="*"
     httpPort="${default.http.port}"
     httpsPort="${default.https.port}"
     protocolVersion="http/2"

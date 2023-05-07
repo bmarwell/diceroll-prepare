@@ -282,7 +282,7 @@
         <plugin>
           <groupId>io.openliberty.tools</groupId>
           <artifactId>liberty-maven-plugin</artifactId>
-          <version>3.7.1</version>
+          <version>3.8-SNAPSHOT</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -315,5 +315,20 @@
     <module>frontend</module>
     <module>ear</module>
   </modules>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>sonatype-snapshots</id>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <checksumPolicy>fail</checksumPolicy>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </pluginRepository>
+  </pluginRepositories>
 
 </project>
