@@ -11,24 +11,9 @@ permissions:
   contents: read
 
 jobs:
-  pre_job:
-    # continue-on-error: true # Uncomment once integration is finished
-    runs-on: ubuntu-latest
-    # Map a step output to a job output
-    outputs:
-      should_skip: ${{ steps.skip_check.outputs.should_skip }}
-    steps:
-    - id: skip_check
-      uses: fkirc/skip-duplicate-actions@v5
-      with:
-        concurrent_skipping: 'never'
-        skip_after_successful_duplicate: 'true'
-        paths_ignore: '["**/README.adoc"]'
-        do_not_skip: '["pull_request", "workflow_dispatch", "schedule"]'
-
   build:
-    needs: pre_job
-    runs-on: [ubuntu-latest]
+    if: github.event_name != 'push' && github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
+    runs-on: [ 'ubuntu-latest' ]
     steps:
 
     - name: Checkout
