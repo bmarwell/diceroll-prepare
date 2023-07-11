@@ -17,6 +17,7 @@
     "vue": "^3.2.45"
   },
   "devDependencies": {
+    "@babel/types": "^7.22.5",
     "@mdi/font": "^7.2.96",
     "@rushstack/eslint-patch": "^1.2.0",
     "@tsconfig/node18": "^2.0.0",
