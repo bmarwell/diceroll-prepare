@@ -20,7 +20,7 @@
     "@babel/types": "^7.22.5",
     "@mdi/font": "^7.2.96",
     "@rushstack/eslint-patch": "^1.2.0",
-    "@tsconfig/node18": "^2.0.0",
+    "@tsconfig/node18": "^18.0.0",
     "@types/jsdom": "^21.0.0",
     "@types/node": "^18.16.3",
     "@vitejs/plugin-vue": "^4.0.0",
