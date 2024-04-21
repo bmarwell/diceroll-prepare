@@ -31,7 +31,7 @@
     <dependency.dicerollparser.version>0.3.0</dependency.dicerollparser.version>
 
     <!-- test dependencies -->
-    <dependency.junit-jupiter.version>5.10.1</dependency.junit-jupiter.version>
+    <dependency.junit-jupiter.version>5.10.2</dependency.junit-jupiter.version>
     <dependency.assertj.version>3.25.3</dependency.assertj.version>
     <dependency.apache.cxf-rt-rs-client.version>4.0.4</dependency.apache.cxf-rt-rs-client.version>
     <dependency.johnzon-jsonb.version>2.0.1</dependency.johnzon-jsonb.version>
