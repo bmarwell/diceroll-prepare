@@ -29,7 +29,7 @@
     "@vue/test-utils": "^2.2.6",
     "@vue/tsconfig": "^0.4.0",
     "css-loader": "^6.7.3",
-    "eslint": "^8.39.0",
+    "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier-vue": "^5.0.0",
     "eslint-plugin-vue": "^9.11.0",
