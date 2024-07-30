@@ -1,4 +1,4 @@
-import { fileURLToPath, URL } from "node:url";
+import { fileURLToPath, resolve, URL } from "node:url";
 
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -16,11 +16,6 @@ export default defineConfig({
     // https://github.com/fi3ework/vite-plugin-checker
     checker({ typescript: true, vueTsc: true }),
   ],
-  test: {
-    deps: {
-      inline: ["vuetify"],
-    },
-  },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
@@ -30,5 +25,18 @@ export default defineConfig({
     proxy: {
       "/api": "http://127.0.0.1:9080",
     },
+  },
+  test: {
+    globals: true,
+    environment: "jsdom",
+    include: ["**/*.spec.ts"],
+    server: {
+      deps: {
+        inline: ["@vue", "vuetify"],
+      },
+    },
+    setupFiles: [
+      resolve(__dirname, "dicerollparser/src/__tests__/matchMedia.ts"),
+    ],
   },
 });
