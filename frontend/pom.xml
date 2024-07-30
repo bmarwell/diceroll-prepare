@@ -90,8 +90,8 @@
           </execution>
         </executions>
         <configuration>
-          <nodeVersion>v18.14.0</nodeVersion>
-          <npmVersion>8.19.3</npmVersion>
+          <nodeVersion>v20.16.0</nodeVersion>
+          <npmVersion>10.8.1</npmVersion>
           <workingDirectory>${frontend.working.directory}</workingDirectory>
           <installDirectory>target</installDirectory>
         </configuration>
